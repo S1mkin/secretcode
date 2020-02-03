@@ -1,0 +1,112 @@
+https://riselab.ru/ustanovka-i-nastrojka-rabochej-sredy-homestead-dlya-laravel/
+
+https://laravel.ru/docs/v5/homestead
+
+https://www.kovzunov.com/2014/09/resheno-oshibka-vt-x-is-disabled-in-the-bios-pri-ustanovke-virtualnoj-mashiny/
+
+https://forums.xamarin.com/discussion/54479/vt-x-is-disabled-in-the-bios-for-both-all-cpu-modes-verr-vmx-msr-all-vmx-disabled#latest
+
+    - map: lara.test
+      to: /home/vagrant/code/laratest/public
+
+
+Чтобы сбросить вирт. машину к начальным настройкам: vagrant destroy
+Запуск вирт. машины: vagrant up
+Выключить вирт. машину: vagrant halt
+Переконфигурировать: vagrant provision
+
+vagrant box update
+vagrant destroy
+vagrant up --provision
+vagrant reload --provision
+
+Доблавление нового сайта в вирт. машине
+serve secretcode.test /home/vagrant/code/secretcode/public/ 80
+
+
+
+Перезапустить сеть: sudo service networking restart
+Перезапустить nginx: service nginx restart
+
+После добавления в конфиг нового сайта делаем перезагрузку виртуальной машины: vagrant reload --provision
+
+Установить глобально laravel в вирт. машине: composer global require laravel/installer
+Добавить новый laravel проект: composer create-project --prefer-dist laravel/laravel laratest (в каталоге code)
+
+Удалить все из папки модулей rm -rf node_modules/
+
+Установить все пакеты: npm install --save-dev
+В windows: npm install --no-bin-links --save-dev
+
+Узнать локальную версию: npm list webpack
+Узнать глобальную версию: npm list webpack -g --depth 0
+Обновить вебпак: npm remove webpack -D && npm i webpack -D
+
+Если ошибка с babel/core: npm install --save-dev @babel/core
+
+Запуск сборки laravel-mix: yarn dev или npm run dev
+
+Подключить бутстрап: php artisan preset bootstrap
+
+######################################  Если есть проблемы с стеью или nginx:
+
+
+vagrant@homestead:~/code/laratest$ sudo service networking restart
+Failed to restart networking.service: Unit networking.service not found.
+
+
+
+Перезапустить сеть: sudo service networking restart
+Перезапустить nginx: service nginx restart
+
+Если ошибка вида 2019/12/16 10:23:23 [crit] 4047#4047: *7 connect() to unix:/var/run/php/php7.4-fpm.sock failed (2: No such file or directory) wh$
+
+###################################### Если nginx 502
+
+В каталоге /var/run/php/ проверям наличие файла php7.4-fpm.sock
+Если его нет, то выполняем установку:
+sudo apt-get install php7.4-fpm
+sudo service nginx restart
+sudo service php7.4-fpm restart
+
+
+Если проблемы с DNS: то можно прописать сервер в файле /etc/resolv.conf
+
+В настройках 
+sudo nano /etc/php/7.4/fpm/php.ini 
+
+; This directive determines whether or not PHP will recognize code between
+; <? and ?> tags as PHP source which should be processed as such. It is
+; generally recommended that <?php and ?> should be used and that this feature
+; should be disabled, as enabling it may result in issues when generating XML
+; documents, however this remains supported for backward compatibility reasons.
+; Note that this directive does not control the <?= shorthand tag, which can be
+; used regardless of this directive.
+; Default Value: On
+; Development Value: Off
+; Production Value: Off
+; http://php.net/short-open-tag
+short_open_tag = On
+
+
+клиент БД с вашей хост-машины, вы должны подключиться к 127.0.0.1 через порт 33060 (MySQL) или 54320 (Postgres). 
+Имя пользователя и пароль для обеих баз данных homestead / secret.
+
+Для создания новой базы: 
+
+mysql -uhomestead -p
+CREATE DATABASE secretcode;
+quit
+
+php artisan migrate - создает миграционные таблицы в БД
+Сами миграции содержаться в каталоге /database/migrations
+
+php artisan migrate:fresh - удаляет таблицы из БД, если их нет в каталоге с миграциями
+
+php artisan migrate:refresh - пересобирает миграции
+
+php artisan make:migration create_tasks_table --create=tasks - создаст новую миграцию и вместе с ней таблицу в БД
+
+################### Создание модели
+
+php artisan make:model Task
