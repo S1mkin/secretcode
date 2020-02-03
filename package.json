@@ -6,6 +6,8 @@
       "serve:app": "cd resources/frontend/app && yarn run serve",
       "build:app": "cd resources/frontend/app && yarn run build",
       "lint:app": "cd resources/frontend/app && yarn run lint",
-      "test:app": "cd resources/frontend/app && yarn run test:unit"
+      "test:app": "cd resources/frontend/app && yarn run test:unit",
+      "start:backend": "cd ../../Homestead && vagrant up",
+      "stop:backend": "cd ../../Homestead && vagrant halt"
     }
   }
