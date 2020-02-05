@@ -3,9 +3,7 @@
         <v-row>
             <v-col cols="12" md="12">
                 <v-form ref="form" class="form">
-                    <h2 class="mb-4">
-                        New secret code
-                    </h2>
+                    <h2 class="mb-4">New secret code {{ str }}</h2>
 
                     <v-text-field
                         label="Name"
@@ -37,6 +35,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "home",
     data() {
@@ -58,11 +57,23 @@ export default {
                     ]
                 },
                 sending: false
-            }
+            },
+            str: "111",
+            error: null
         };
     },
-    method: {
+    methods: {
         ADD_SECRET_CODE() {
+            console.log("2222");
+            this.str = "222";
+            axios
+                .get("http://secretcode.test/api/test")
+                .then(response => {
+                    this.str = response.data;
+                })
+                .catch(error => {
+                    this.error = error.response.data.message || error.message;
+                });
             return;
         }
     }
