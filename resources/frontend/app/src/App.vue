@@ -16,7 +16,7 @@
                 <v-icon left>add_circle_outline</v-icon>
                 <span class="mr-2">New code</span>
             </v-btn>
-            <v-btn text to="/about">
+            <v-btn text to="/secretcodes">
                 <v-icon left>list</v-icon> <span class="mr-2">View code</span>
             </v-btn>
         </v-app-bar>

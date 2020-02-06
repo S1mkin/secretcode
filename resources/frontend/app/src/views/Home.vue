@@ -122,7 +122,10 @@ export default {
                     this.form.sending = false;
                 })
                 .catch(error => {
-                    this.form.error = error.message;
+                    this.form.error =
+                        error.response.data.errors ||
+                        error.response.data.message ||
+                        error.message;
                     this.form.sending = false;
                 });
         }

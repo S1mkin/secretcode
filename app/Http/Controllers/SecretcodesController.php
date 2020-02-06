@@ -21,8 +21,8 @@ class SecretcodesController extends Controller
     {
         
         $data = $request->validate([
-            'name' => 'required',
-            'code' => 'required',
+            'name' => 'required|unique:secretcodes|min:3|max:50',
+            'code' => 'required|min:8',
         ]);
 
         $secretcode = new Secretcode;
@@ -30,21 +30,8 @@ class SecretcodesController extends Controller
         $secretcode->name = $data['name'];
         $secretcode->code = $data['code'];
         $secretcode->save();
-/*
-        Secretcode::create([
-            'user_id' => 1,
-            'name' => $data['name'],
-           // 'code' => $data['code']
-        ]);*/
-       
-        return "Add success: " . $data['name'];
-        /*
-        return new SecretcodeResource(Secretcode::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]));
-        */
+
+        return "Secretcode has been added";
     }
 
 }

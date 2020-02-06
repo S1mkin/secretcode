@@ -15,6 +15,15 @@ const routes = [
         }
     },
     {
+        path: "/secretcodes",
+        name: "Secretcodes",
+        component: () => import("../views/Secretcodes.vue"),
+        meta: {
+            title: "All secretcode",
+            requiresAuth: false
+        }
+    },
+    {
         path: "*",
         name: "404",
         component: () => import("../views/404.vue"),
