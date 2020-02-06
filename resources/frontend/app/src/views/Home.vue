@@ -3,9 +3,7 @@
         <v-row>
             <v-col cols="12" md="12">
                 <v-form ref="form" class="form">
-                    <h2 class="mb-4">
-                        New secret code
-                    </h2>
+                    <h2 class="mb-4">New secret code {{ str }}</h2>
 
                     <v-text-field
                         label="Name"
@@ -27,9 +25,39 @@
                         width="100%"
                         :disabled="form.sending"
                         @click="ADD_SECRET_CODE"
-                        ><v-icon class="pr-1">add_circle_outline</v-icon> Add to
-                        base</v-btn
                     >
+                        <v-progress-circular
+                            v-show="form.sending"
+                            size="18"
+                            color="#FFF"
+                            indeterminate
+                        ></v-progress-circular>
+                        <span v-show="!form.sending"
+                            ><v-icon class="pr-1">add_circle_outline</v-icon>
+                            Add to base</span
+                        >
+                    </v-btn>
+                    <v-btn color="success" width="100%" @click="GET_SECRET_CODE"
+                        >GET
+                    </v-btn>
+
+                    <v-alert
+                        v-if="form.success !== null"
+                        type="success"
+                        dense
+                        dismissible
+                        class="my-2"
+                        >{{ form.success }}
+                    </v-alert>
+
+                    <v-alert
+                        v-if="form.error !== null"
+                        type="error"
+                        dense
+                        dismissible
+                        class="my-2"
+                        >{{ form.error }}
+                    </v-alert>
                 </v-form>
             </v-col>
         </v-row>
@@ -37,6 +65,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     name: "home",
     data() {
@@ -57,13 +86,45 @@ export default {
                         value => value.length >= 8 || "Min 8 characters"
                     ]
                 },
-                sending: false
-            }
+                sending: false,
+                error: null,
+                success: null
+            },
+            str: "111"
         };
     },
-    method: {
+    methods: {
+        GET_SECRET_CODE() {
+            this.form.sending = true;
+            this.form.error = null;
+            this.form.success = null;
+            axios
+                .get("/api/secretcode/get")
+                .then(response => {
+                    this.str = response.data;
+                    this.form.sending = false;
+                })
+                .catch(error => {
+                    this.form.error = error.message;
+                    this.form.sending = false;
+                });
+        },
         ADD_SECRET_CODE() {
-            return;
+            this.form.sending = true;
+            this.form.error = null;
+            axios
+                .post("/api/secretcode/add", {
+                    name: this.form.name_secret_code.value,
+                    code: this.form.text_secret_code.value
+                })
+                .then(response => {
+                    this.form.success = response.data;
+                    this.form.sending = false;
+                })
+                .catch(error => {
+                    this.form.error = error.message;
+                    this.form.sending = false;
+                });
         }
     }
 };

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSecretsTable extends Migration
+class CreateSecretcodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateSecretsTable extends Migration
      */
     public function up()
     {
-        Schema::create('secrets', function (Blueprint $table) {
+        Schema::create('secretcodes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->text('name');
             $table->text('code');
-            $table->timestamps('date');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,8 @@ class CreateSecretsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('secrets');
+        Schema::dropIfExists('secretcodes');
     }
 }
+
+
