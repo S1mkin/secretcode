@@ -3,26 +3,29 @@
         <v-row>
             <v-col cols="12" md="12">
                 <v-form ref="form" class="form">
-                    <h2 class="mb-4">New secret code {{ str }}</h2>
+                    <h2 class="text-center mb-4">Add secret code</h2>
 
                     <v-text-field
+                        v-model="form.name_secret_code.value"
                         label="Name"
-                        required
                         outlined
+                        required
+                        lazy-validation
                         :rules="form.name_secret_code.rules"
-                        :value="form.name_secret_code.value"
                     >
                     </v-text-field>
                     <v-textarea
+                        v-model="form.text_secret_code.value"
                         label="Code"
                         outlined
                         required
+                        lazy-validation
                         :rules="form.text_secret_code.rules"
-                        :value="form.text_secret_code.value"
                     ></v-textarea>
                     <v-btn
                         color="success"
                         width="100%"
+                        class="mb-4"
                         :disabled="form.sending"
                         @click="ADD_SECRET_CODE"
                     >
@@ -36,9 +39,6 @@
                             ><v-icon class="pr-1">add_circle_outline</v-icon>
                             Add to base</span
                         >
-                    </v-btn>
-                    <v-btn color="success" width="100%" @click="GET_SECRET_CODE"
-                        >GET
                     </v-btn>
 
                     <v-alert
@@ -94,21 +94,6 @@ export default {
         };
     },
     methods: {
-        GET_SECRET_CODE() {
-            this.form.sending = true;
-            this.form.error = null;
-            this.form.success = null;
-            axios
-                .get("/api/secretcode/get")
-                .then(response => {
-                    this.str = response.data;
-                    this.form.sending = false;
-                })
-                .catch(error => {
-                    this.form.error = error.message;
-                    this.form.sending = false;
-                });
-        },
         ADD_SECRET_CODE() {
             this.form.sending = true;
             this.form.error = null;
@@ -119,6 +104,8 @@ export default {
                 })
                 .then(response => {
                     this.form.success = response.data;
+                    this.form.name_secret_code.value = "";
+                    this.form.text_secret_code.value = "";
                     this.form.sending = false;
                 })
                 .catch(error => {

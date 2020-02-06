@@ -4,17 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Secretcode;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App;
 
 class SecretcodesController extends Controller
 {
     public function get()
     {
-        return "4444";
-
-        //$secretcodes = DB::table('secretcodes')->get();
-        // $secretcodes = App\Secretcode::all();
-        // return view('page.task.index', compact('tasks'));
-        // return $secretcodes;
+        return App\Secretcode::all();
     }
 
     public function add(Request $request)
