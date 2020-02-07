@@ -57,6 +57,28 @@ export default {
                         reject(response_error);
                     });
             });
+        },
+        DELETE_SECRETCODES_FROM_BACKEND({ commit, dispatch }, data) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post("/api/secretcode/delete", {
+                        id: data.id
+                    })
+                    .then(() => {
+                        dispatch("LOAD_SECRETCODES_FROM_BACKEND");
+                        resolve(
+                            "Secret code with ID ${data.id} has been deleted"
+                        );
+                    })
+                    .catch(error => {
+                        let response_error =
+                            error.response.data.errors ||
+                            error.response.data.message ||
+                            error.message;
+                        commit("ADD_ERROR", response_error);
+                        reject(response_error);
+                    });
+            });
         }
     }
 };

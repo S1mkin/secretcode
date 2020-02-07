@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Secretcode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App;
+
 
 class SecretcodesController extends Controller
 {
     public function get()
     {
-        return App\Secretcode::all();
+        return Secretcode::all();
     }
 
     public function add(Request $request)
@@ -29,6 +29,17 @@ class SecretcodesController extends Controller
         $secretcode->save();
 
         return "Secretcode has been added";
+    }
+
+    public function delete(Request $request)
+    {       
+        $data = $request->validate([
+            'id' => 'required',
+        ]);
+        
+        Secretcode::findOrFail($data['id'])->delete();
+
+        return "Secretcode ID " . $data['id'] . " has been deleted";
     }
 
 }

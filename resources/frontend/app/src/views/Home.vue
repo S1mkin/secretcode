@@ -27,7 +27,7 @@
                         width="100%"
                         class="mb-4"
                         :disabled="form.sending"
-                        @click="ADD_secretcode"
+                        @click="ADD_SECRETCODE"
                     >
                         <v-progress-circular
                             v-show="form.sending"
@@ -88,12 +88,11 @@ export default {
                 sending: false,
                 error: null,
                 success: null
-            },
-            str: "111"
+            }
         };
     },
     methods: {
-        ADD_secretcode() {
+        ADD_SECRETCODE() {
             this.form.sending = true;
             this.form.error = null;
 
