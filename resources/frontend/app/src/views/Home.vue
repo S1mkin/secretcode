@@ -6,28 +6,28 @@
                     <h2 class="text-center mb-4">Add secret code</h2>
 
                     <v-text-field
-                        v-model="form.name_secret_code.value"
+                        v-model="form.name_secretcode.value"
                         label="Name"
                         outlined
                         required
                         lazy-validation
-                        :rules="form.name_secret_code.rules"
+                        :rules="form.name_secretcode.rules"
                     >
                     </v-text-field>
                     <v-textarea
-                        v-model="form.text_secret_code.value"
+                        v-model="form.text_secretcode.value"
                         label="Code"
                         outlined
                         required
                         lazy-validation
-                        :rules="form.text_secret_code.rules"
+                        :rules="form.text_secretcode.rules"
                     ></v-textarea>
                     <v-btn
                         color="success"
                         width="100%"
                         class="mb-4"
                         :disabled="form.sending"
-                        @click="ADD_SECRET_CODE"
+                        @click="ADD_secretcode"
                     >
                         <v-progress-circular
                             v-show="form.sending"
@@ -65,20 +65,19 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
     name: "home",
     data() {
         return {
             form: {
-                name_secret_code: {
+                name_secretcode: {
                     value: "Secret code №1",
                     rules: [
                         value => !!value || "Name secret code is required",
                         value => value.length >= 8 || "Min 8 characters"
                     ]
                 },
-                text_secret_code: {
+                text_secretcode: {
                     value:
                         "secret text demis 4 lala-}blab{la ! =)) :( {457}7775 {-1.000001 } 32 {+98} {2} {+3.14} {12637} 9812 {89123789} 1 O O1 01 1O 1}OO {zer}o! {df1000 ggg... {5-} 105} {-2010} wass{auupp!!",
                     rules: [
@@ -94,25 +93,22 @@ export default {
         };
     },
     methods: {
-        ADD_SECRET_CODE() {
+        ADD_secretcode() {
             this.form.sending = true;
             this.form.error = null;
-            axios
-                .post("/api/secretcode/add", {
-                    name: this.form.name_secret_code.value,
-                    code: this.form.text_secret_code.value
+
+            this.$store
+                .dispatch("ADD_SECRETCODES_TO_BACKEND", {
+                    name: this.form.name_secretcode.value,
+                    code: this.form.text_secretcode.value
                 })
                 .then(response => {
-                    this.form.success = response.data;
-                    this.form.name_secret_code.value = "";
-                    this.form.text_secret_code.value = "";
-                    this.form.sending = false;
+                    this.form.success = response;
                 })
                 .catch(error => {
-                    this.form.error =
-                        error.response.data.errors ||
-                        error.response.data.message ||
-                        error.message;
+                    this.form.error = error;
+                })
+                .finally(() => {
                     this.form.sending = false;
                 });
         }
