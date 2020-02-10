@@ -21,14 +21,20 @@
                                 :value="secretcode.text"
                             ></v-textarea>
 
-                            <span class="font-weight-bold pr-2">Codes:</span>
-                            <span
-                                v-for="(code, key) in secretcode.codes"
-                                :key="key"
-                                class="secretcode__code"
-                                >{{ code.value }}</span
-                            >
-                            <span v-show="!secretcode.codes[0]">not found</span>
+                            <div class="mb-4">
+                                <span class="font-weight-bold pr-2"
+                                    >Codes:</span
+                                >
+                                <span
+                                    v-for="(code, key) in secretcode.codes"
+                                    :key="key"
+                                    class="secretcode__code"
+                                    >{{ code.value }}</span
+                                >
+                                <span v-show="!secretcode.codes[0]"
+                                    >not found</span
+                                >
+                            </div>
 
                             <v-row no-gutters>
                                 <v-col cols="6">
@@ -69,7 +75,7 @@
 
                 <v-alert
                     v-if="loading.text !== null"
-                    type="error"
+                    type="success"
                     dense
                     dismissible
                     class="my-2"

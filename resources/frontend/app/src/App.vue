@@ -14,10 +14,10 @@
 
             <v-btn text to="/">
                 <v-icon left>add_circle_outline</v-icon>
-                <span class="mr-2">Add code</span>
+                <span class="mr-2">Add</span>
             </v-btn>
             <v-btn text to="/secretcodes">
-                <v-icon left>list</v-icon> <span class="mr-2">View code</span>
+                <v-icon left>list</v-icon> <span class="mr-2">View</span>
             </v-btn>
         </v-app-bar>
         <v-content>

@@ -100,6 +100,9 @@ class SecretcodesController extends Controller
         ]);
         
         //Secretcode::findOrFail($data['id'])->delete();
+
+
+
         Secretcode::destroy($data['id']);
 
         return "Secretcode ID " . $data['id'] . " has been deleted";

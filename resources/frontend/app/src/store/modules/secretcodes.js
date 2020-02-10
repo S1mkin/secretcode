@@ -51,8 +51,12 @@ export default {
                         text: data.text
                     })
                     .then(response => {
-                        commit("ADD_SECRETCODES", response);
-                        resolve("Secret code has been added");
+                        commit("ADD_SECRETCODES", response.data);
+                        resolve(
+                            "Secret code with ID " +
+                                response.data.id +
+                                " has been added"
+                        );
                     })
                     .catch(error => {
                         let response_error =
@@ -73,16 +77,13 @@ export default {
                     .then(() => {
                         commit("DELETE_SECRETCODE_BY_ID", data.id);
                         resolve(
-                            "Secret code with ID ${data.id} has been deleted"
+                            "Secret code with ID " +
+                                data.id +
+                                " has been deleted"
                         );
                     })
                     .catch(error => {
-                        let response_error =
-                            error.response.data.errors ||
-                            error.response.data.message ||
-                            error.message;
-                        commit("ADD_ERROR", response_error);
-                        reject(response_error);
+                        reject(error);
                     });
             });
         }
