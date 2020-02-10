@@ -99,7 +99,7 @@ export default {
             this.$store
                 .dispatch("ADD_SECRETCODES_TO_BACKEND", {
                     name: this.form.name_secretcode.value,
-                    code: this.form.text_secretcode.value
+                    text: this.form.text_secretcode.value
                 })
                 .then(response => {
                     this.form.success = response;

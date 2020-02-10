@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSecretcodesTable extends Migration
+class CreateCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateSecretcodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('secretcodes', function (Blueprint $table) {
+        Schema::create('codes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->text('name');
-            $table->text('text');
-            $table->timestamps();
+            $table->bigInteger('value');
+            $table->unsignedBigInteger('secretcode_id');
+            $table->foreign('secretcode_id')->references('id')->on('secretcodes');
         });
     }
 
@@ -29,8 +28,6 @@ class CreateSecretcodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('secretcodes');
+        Schema::dropIfExists('codes');
     }
 }
-
-

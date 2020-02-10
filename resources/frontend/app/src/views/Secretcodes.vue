@@ -4,16 +4,7 @@
             <v-col cols="12" md="12">
                 <h2 class="text-center mb-4">View secret code</h2>
 
-                <div class="text-center">
-                    <v-progress-circular
-                        v-show="loading.status"
-                        size="18"
-                        color="#F00"
-                        indeterminate
-                    ></v-progress-circular>
-                </div>
-
-                <v-expansion-panels v-show="!loading.status">
+                <v-expansion-panels>
                     <v-expansion-panel
                         v-for="(secretcode, key) in GET_SECRETCODES"
                         :key="key"
@@ -27,12 +18,23 @@
                                 outlined
                                 filled
                                 readonly
-                                :value="secretcode.code"
+                                :value="secretcode.text"
                             ></v-textarea>
+
+                            <span class="font-weight-bold pr-2">Codes:</span>
+                            <span
+                                v-for="(code, key) in secretcode.codes"
+                                :key="key"
+                                class="secretcode__code"
+                                >{{ code.value }}</span
+                            >
+                            <span v-show="!secretcode.codes[0]">not found</span>
 
                             <v-row no-gutters>
                                 <v-col cols="6">
-                                    Created at:
+                                    <span class="font-weight-bold"
+                                        >Created at:</span
+                                    >
                                     {{ secretcode.created_at | DATE_TO_STR }}
                                 </v-col>
                                 <v-col cols="6" class="text-right">
@@ -40,6 +42,7 @@
                                         color="indigo"
                                         outlined
                                         class="mb-4"
+                                        width="100%"
                                         :disabled="loading.status"
                                         @click="
                                             DELETE_SECRETCODE(secretcode.id)
@@ -48,7 +51,7 @@
                                         <v-progress-circular
                                             v-show="loading.status"
                                             size="18"
-                                            color="#FFF"
+                                            color="#F00"
                                             indeterminate
                                         ></v-progress-circular>
                                         <span v-show="!loading.status"
@@ -63,6 +66,15 @@
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-expansion-panels>
+
+                <v-alert
+                    v-if="loading.text !== null"
+                    type="error"
+                    dense
+                    dismissible
+                    class="my-2"
+                    >{{ loading.text }}
+                </v-alert>
 
                 <v-alert
                     v-if="loading.error !== null"
@@ -83,6 +95,7 @@ export default {
         return {
             loading: {
                 status: false,
+                text: null,
                 error: null
             }
         };
@@ -90,7 +103,6 @@ export default {
     created() {
         // Load secretcodes
         this.loading.status = true;
-        this.loading.error = null;
 
         this.$store
             .dispatch("LOAD_SECRETCODES_FROM_BACKEND")
@@ -126,10 +138,13 @@ export default {
             // Load secretcodes
             this.loading.status = true;
             this.loading.error = null;
+            this.loading.text = null;
 
             this.$store
                 .dispatch("DELETE_SECRETCODES_FROM_BACKEND", { id: id })
-                .then(() => {})
+                .then(response => {
+                    this.loading.text = response;
+                })
                 .catch(error => {
                     this.loading.error = error;
                     this.loading.status = false;
@@ -141,3 +156,15 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.secretcode {
+    &__code {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        color: rgb(67, 117, 150);
+        padding: 2px 6px;
+        margin-right: 10px;
+    }
+}
+</style>

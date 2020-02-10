@@ -16,6 +16,12 @@ export default {
         ADD_SECRETCODES(state, data) {
             state.secretcodes.push(...data);
         },
+        DELETE_SECRETCODE_BY_ID(state, id) {
+            let secretcode_id = state.secretcodes.findIndex(element => {
+                return element.id == id ? true : false;
+            });
+            state.secretcodes.splice(secretcode_id, 1);
+        },
         ADD_ERROR(state, data) {
             state.error = data;
         }
@@ -37,15 +43,15 @@ export default {
                     );
                 });
         },
-        ADD_SECRETCODES_TO_BACKEND({ commit, dispatch }, data) {
+        ADD_SECRETCODES_TO_BACKEND({ commit }, data) {
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/secretcode/add", {
                         name: data.name,
-                        code: data.code
+                        text: data.text
                     })
-                    .then(() => {
-                        dispatch("LOAD_SECRETCODES_FROM_BACKEND");
+                    .then(response => {
+                        commit("ADD_SECRETCODES", response);
                         resolve("Secret code has been added");
                     })
                     .catch(error => {
@@ -58,14 +64,14 @@ export default {
                     });
             });
         },
-        DELETE_SECRETCODES_FROM_BACKEND({ commit, dispatch }, data) {
+        DELETE_SECRETCODES_FROM_BACKEND({ commit }, data) {
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/secretcode/delete", {
                         id: data.id
                     })
                     .then(() => {
-                        dispatch("LOAD_SECRETCODES_FROM_BACKEND");
+                        commit("DELETE_SECRETCODE_BY_ID", data.id);
                         resolve(
                             "Secret code with ID ${data.id} has been deleted"
                         );
