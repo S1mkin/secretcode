@@ -35,8 +35,7 @@ class SecretcodesController extends Controller
             if ( $char == "{" ) {
                 $start_maybe_code = true;
                 $maybe_code = "";
-            }
-            elseif ( $char == "}" && $start_maybe_code && $this->is_code($maybe_code) ) {
+            } elseif ( $char == "}" && $start_maybe_code && $this->is_code($maybe_code) ) {
                 $start_maybe_code = false;
                 $output[] = ($maybe_code[0] == "+") ? substr($maybe_code, 1) : $maybe_code;
             } elseif ( $start_maybe_code ) {
@@ -53,11 +52,31 @@ class SecretcodesController extends Controller
     */
     public function get()
     {
-        $secretcodes = Secretcode::all();
-        $secretcodes->load("codes");
+        $secretcodes = Secretcode::all()->load("codes");
         return $secretcodes;
     }
 
+    /**
+    * Function return secretcodes by condition
+    * @return array
+    */
+    public function filter(Request $request)
+    {
+        $data = $request->validate([
+            'condition' => 'required',
+            'code' => 'required',
+        ]);
+
+        if (!in_array($data['condition'], ['>', '<', '='])) {
+            $data['condition'] == '=';
+        }
+
+        $secretcodes = Secretcode::whereHas('codes', function($q) use ($data) {
+            $q->where('value', $data['condition'], $data['code']);
+        })->get()->load("codes");
+
+        return $secretcodes;
+    }
 
     /**
     * Function add new secretcode and return object
@@ -100,8 +119,6 @@ class SecretcodesController extends Controller
         ]);
         
         //Secretcode::findOrFail($data['id'])->delete();
-
-
 
         Secretcode::destroy($data['id']);
 

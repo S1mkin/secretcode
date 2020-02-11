@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/secretcode/get', 'SecretcodesController@get');
 Route::post('/secretcode/add', 'SecretcodesController@add');
 Route::post('/secretcode/delete', 'SecretcodesController@delete');
+Route::post('/secretcode/filter', 'SecretcodesController@filter');

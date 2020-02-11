@@ -86,6 +86,23 @@ export default {
                         reject(error);
                     });
             });
+        },
+        FILTER_SECRETCODES({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post("/api/secretcode/filter", {
+                        condition: data.condition,
+                        code: data.code
+                    })
+                    .then(response => {
+                        commit("CLEAR_SECRETCODES");
+                        commit("ADD_SECRETCODES", response.data);
+                        resolve("Filter is success");
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
         }
     }
 };

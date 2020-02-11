@@ -2,7 +2,11 @@
     <v-container fluid>
         <v-row>
             <v-col cols="12" md="12">
-                <h2 class="text-center mb-4">View secret code</h2>
+                <h2 class="text-center mb-4">Filter</h2>
+
+                <app-filter></app-filter>
+
+                <h2 class="text-center mb-4">Secretcodes</h2>
 
                 <v-expansion-panels>
                     <v-expansion-panel
@@ -96,6 +100,7 @@
 </template>
 
 <script>
+import appFilter from "../components/appFilter.vue";
 export default {
     data() {
         return {
@@ -106,6 +111,9 @@ export default {
             }
         };
     },
+    components: {
+        appFilter
+    },
     created() {
         // Load secretcodes
         this.loading.status = true;
@@ -115,7 +123,6 @@ export default {
             .then(() => {})
             .catch(error => {
                 this.loading.error = error;
-                this.loading.status = false;
             })
             .finally(() => {
                 this.loading.status = false;

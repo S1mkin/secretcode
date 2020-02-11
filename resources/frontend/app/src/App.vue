@@ -39,11 +39,12 @@ header {
     margin: 0 auto;
     max-width: $main-width !important;
 }
+
 #app {
     background-color: #efefef;
     position: relative;
     max-width: $main-width;
     margin: 0 auto;
-    padding: 40px;
+    padding: 20px 40px;
 }
 </style>
