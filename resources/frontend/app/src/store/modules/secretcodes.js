@@ -51,7 +51,7 @@ export default {
                         text: data.text
                     })
                     .then(response => {
-                        commit("ADD_SECRETCODES", response.data);
+                        commit("ADD_SECRETCODES", [response.data]);
                         resolve(
                             "Secret code with ID " +
                                 response.data.id +
@@ -59,8 +59,8 @@ export default {
                         );
                     })
                     .catch(error => {
-                        /*
-                        let response_error =
+                        console.log("catch ok");
+                        /*let response_error =
                             error.response.data.errors ||
                             error.response.data.message ||
                             error.message;

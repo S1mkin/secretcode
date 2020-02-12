@@ -30,12 +30,12 @@
                         @click="ADD_SECRETCODE"
                     >
                         <v-progress-circular
-                            v-show="form.sending"
+                            v-if="form.sending"
                             size="18"
                             color="#FFF"
                             indeterminate
                         ></v-progress-circular>
-                        <span v-show="!form.sending"
+                        <span v-if="!form.sending"
                             ><v-icon class="pr-1">add_circle_outline</v-icon>
                             Add to base</span
                         >
