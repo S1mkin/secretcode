@@ -16,7 +16,7 @@ class SecretcodesController extends Controller
     * @return bool
     */
     private function is_code($string) {
-        return (in_array($string[0], ["+", "-"])) ? ctype_digit(substr($string, 1)) : ctype_digit($string);  
+        return (in_array($string[0], ["+", "-"])) ? ctype_digit(substr($string, 1)) : ctype_digit($string);
     }
 
 
@@ -35,7 +35,7 @@ class SecretcodesController extends Controller
             if ( $char == "{" ) {
                 $start_maybe_code = true;
                 $maybe_code = "";
-            } elseif ( $char == "}" && $start_maybe_code && $this->is_code($maybe_code) ) {
+            } elseif ( $char == "}" && $start_maybe_code && !empty($maybe_code) && $this->is_code($maybe_code) ) {
                 $start_maybe_code = false;
                 $output[] = ($maybe_code[0] == "+") ? substr($maybe_code, 1) : $maybe_code;
             } elseif ( $start_maybe_code ) {
