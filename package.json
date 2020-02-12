@@ -7,7 +7,7 @@
       "build:app": "cd resources/frontend/app && yarn run build",
       "lint:app": "cd resources/frontend/app && yarn run lint",
       "test:app": "cd resources/frontend/app && yarn run test:unit",
-      "start:backend": "cd ../../Homestead && vagrant up",
-      "stop:backend": "cd ../../Homestead && vagrant halt"
+      "start:b": "cd ../../Homestead && vagrant up",
+      "stop:b": "cd ../../Homestead && vagrant halt"
     }
   }
