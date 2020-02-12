@@ -1,7 +1,10 @@
 <template>
     <v-form ref="form" class="form mb-6">
         <v-row align="center">
-            <v-col class="d-flex" cols="12" sm="8">
+            <v-col class="d-flex" cols="12" sm="2">
+                Code:
+            </v-col>
+            <v-col class="d-flex" cols="12" sm="5">
                 <v-select
                     v-model="form.condition.value"
                     :items="form.condition.items"
@@ -12,7 +15,7 @@
                     :rules="form.condition.rules"
                 ></v-select>
             </v-col>
-            <v-col class="d-flex" cols="12" sm="4">
+            <v-col class="d-flex" cols="12" sm="5">
                 <v-text-field
                     v-model="form.code.value"
                     label="Code"
@@ -28,7 +31,7 @@
                 <v-btn
                     color="success"
                     width="100%"
-                    class="mb-4"
+                    x-large
                     :disabled="form.sending"
                     @click="FILTER_SECRETCODE"
                 >
@@ -47,7 +50,7 @@
                 <v-btn
                     color="success"
                     width="100%"
-                    class="mb-4"
+                    x-large
                     :disabled="form.sending"
                     @click="LOAD_ALL_SECRETCODE"
                 >
@@ -91,9 +94,9 @@ export default {
                 condition: {
                     value: null,
                     items: [
-                        { text: "contain code less than", value: "<" },
-                        { text: "contain code more than", value: ">" },
-                        { text: "contain code", value: "=" }
+                        { text: "<", value: "<" },
+                        { text: ">", value: ">" },
+                        { text: "=", value: "=" }
                     ],
                     rules: [value => !!value || "Filter condition is required"]
                 },
@@ -150,8 +153,7 @@ export default {
 <style lang="scss">
 .form {
     background-color: #fff;
-    padding: 40px;
+    padding: 20px 30px 10px;
     border-radius: 6px;
-    margin: 0 auto;
 }
 </style>

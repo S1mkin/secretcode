@@ -1,8 +1,7 @@
 import axios from "axios";
 export default {
     state: {
-        secretcodes: [],
-        error: null
+        secretcodes: []
     },
     getters: {
         GET_SECRETCODES(state) {
@@ -21,9 +20,6 @@ export default {
                 return element.id == id ? true : false;
             });
             state.secretcodes.splice(secretcode_id, 1);
-        },
-        ADD_ERROR(state, data) {
-            state.error = data;
         }
     },
     actions: {
@@ -34,13 +30,8 @@ export default {
                     commit("CLEAR_SECRETCODES");
                     commit("ADD_SECRETCODES", response.data);
                 })
-                .catch(error => {
-                    commit(
-                        "ADD_ERROR",
-                        error.response.data.errors ||
-                            error.response.data.message ||
-                            error.message
-                    );
+                .catch(() => {
+                    return false;
                 });
         },
         ADD_SECRETCODES_TO_BACKEND({ commit }, data) {
@@ -59,12 +50,6 @@ export default {
                         );
                     })
                     .catch(error => {
-                        console.log("catch ok");
-                        /*let response_error =
-                            error.response.data.errors ||
-                            error.response.data.message ||
-                            error.message;
-                        commit("ADD_ERROR", response_error);*/
                         reject(JSON.stringify(error));
                     });
             });
