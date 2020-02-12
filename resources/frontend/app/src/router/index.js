@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Secretcodes from "../views/Secretcodes.vue";
 
 Vue.use(VueRouter);
 
@@ -17,7 +18,7 @@ const routes = [
     {
         path: "/secretcodes",
         name: "Secretcodes",
-        component: () => import("../views/Secretcodes.vue"),
+        component: Secretcodes,
         meta: {
             title: "All secretcode",
             requiresAuth: false

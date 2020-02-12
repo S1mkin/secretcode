@@ -12,6 +12,7 @@
                     <v-expansion-panel
                         v-for="(secretcode, key) in GET_SECRETCODES"
                         :key="key"
+                        focusable
                         class="secretcode"
                     >
                         <v-expansion-panel-header>{{
@@ -78,6 +79,15 @@
                 </v-expansion-panels>
 
                 <v-alert
+                    v-if="GET_SECRETCODES.length == 0"
+                    type="error"
+                    dense
+                    dismissible
+                    class="my-2"
+                    >Not Found
+                </v-alert>
+
+                <v-alert
                     v-if="loading.text !== null"
                     type="success"
                     dense
@@ -113,20 +123,6 @@ export default {
     },
     components: {
         appFilter
-    },
-    created() {
-        // Load secretcodes
-        this.loading.status = true;
-
-        this.$store
-            .dispatch("LOAD_SECRETCODES_FROM_BACKEND")
-            .then(() => {})
-            .catch(error => {
-                this.loading.error = error;
-            })
-            .finally(() => {
-                this.loading.status = false;
-            });
     },
     filters: {
         // Formatting date

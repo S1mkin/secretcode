@@ -59,12 +59,13 @@ export default {
                         );
                     })
                     .catch(error => {
+                        /*
                         let response_error =
                             error.response.data.errors ||
                             error.response.data.message ||
                             error.message;
-                        commit("ADD_ERROR", response_error);
-                        reject(response_error);
+                        commit("ADD_ERROR", response_error);*/
+                        reject(JSON.stringify(error));
                     });
             });
         },
@@ -83,7 +84,7 @@ export default {
                         );
                     })
                     .catch(error => {
-                        reject(error);
+                        reject(JSON.stringify(error));
                     });
             });
         },
@@ -100,7 +101,7 @@ export default {
                         resolve("Filter is success");
                     })
                     .catch(error => {
-                        reject(error);
+                        reject(JSON.stringify(error));
                     });
             });
         }

@@ -8,6 +8,7 @@
       "lint:app": "cd resources/frontend/app && yarn run lint",
       "test:app": "cd resources/frontend/app && yarn run test:unit",
       "start:b": "cd ../../Homestead && vagrant up",
-      "stop:b": "cd ../../Homestead && vagrant halt"
+      "stop:b": "cd ../../Homestead && vagrant halt",
+      "ssh:b": "cd ../../Homestead && vagrant ssh"
     }
   }

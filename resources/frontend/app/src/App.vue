@@ -21,7 +21,9 @@
             </v-btn>
         </v-app-bar>
         <v-content>
-            <router-view></router-view>
+            <transition name="transition-fade" mode="out-in">
+                <router-view></router-view>
+            </transition>
         </v-content>
     </v-app>
 </template>
@@ -46,5 +48,20 @@ header {
     max-width: $main-width;
     margin: 0 auto;
     padding: 20px 40px;
+}
+
+/* Fade transition */
+.transition-fade-enter-active,
+.transition-fade-leave-active {
+    transition: opacity 0.15s;
+}
+
+.transition-fade-enter-active {
+    transition-delay: 0.15s;
+}
+
+.transition-fade-enter,
+.transition-fade-leave-active {
+    opacity: 0;
 }
 </style>

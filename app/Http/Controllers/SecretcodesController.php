@@ -104,7 +104,7 @@ class SecretcodesController extends Controller
             ]);
         }
 
-        return $secretcode;
+        return $secretcode->load('codes');
     }
 
 
