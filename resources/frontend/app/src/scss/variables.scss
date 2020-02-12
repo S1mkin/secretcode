@@ -1,0 +1,8 @@
+$container-max-widths: map-deep-merge(
+    (
+      'md': map-get($grid-breakpoints, 'md') * 0.5,
+      'lg': map-get($grid-breakpoints, 'lg') * 0.5,
+      'xl': map-get($grid-breakpoints, 'xl') * 0.5
+    ),
+    $container-max-widths
+);
