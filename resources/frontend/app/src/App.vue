@@ -12,16 +12,21 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn text to="/sign_in">
-                <v-icon left>account_circle</v-icon>
-                <span class="mr-2">Sign in</span>
-            </v-btn>
-            <v-btn text to="/">
+            <v-btn text to="/add_secretcode" v-show="IS_AUTH">
                 <v-icon left>add_circle_outline</v-icon>
                 <span class="mr-2">Add</span>
             </v-btn>
-            <v-btn text to="/secretcodes">
+            <v-btn text to="/secretcodes" v-show="IS_AUTH">
                 <v-icon left>list</v-icon> <span class="mr-2">View</span>
+            </v-btn>
+
+            <v-btn text to="/" v-show="!IS_AUTH">
+                <v-icon left>account_circle</v-icon>
+                <span class="mr-2">Sign in</span>
+            </v-btn>
+            <v-btn text v-show="IS_AUTH" @click="SIGN_OUT">
+                <v-icon left>exit_to_app</v-icon>
+                <span class="mr-2">Sign out</span>
             </v-btn>
         </v-app-bar>
         <v-content>
@@ -33,9 +38,20 @@
 </template>
 
 <script>
+import Store from "./store";
 export default {
     name: "App",
-    data: () => ({})
+    data: () => ({}),
+    computed: {
+        IS_AUTH: () => Store.getters.IS_AUTHENTICATED
+    },
+    methods: {
+        SIGN_OUT() {
+            Store.dispatch("AUTH_LOGOUT").then(() => {
+                this.$router.push({ name: "Sign_in" });
+            });
+        }
+    }
 };
 </script>
 

@@ -125,3 +125,12 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.form {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+</style>

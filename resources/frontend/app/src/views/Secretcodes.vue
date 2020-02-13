@@ -66,14 +66,9 @@
             </v-expansion-panel>
         </v-expansion-panels>
 
-        <v-alert
-            v-if="GET_SECRETCODES.length == 0"
-            type="error"
-            dense
-            dismissible
-            class="my-2"
-            >Not Found
-        </v-alert>
+        <div class="secretcodes_empty" v-if="GET_SECRETCODES.length == 0">
+            Empty
+        </div>
 
         <v-alert
             v-if="loading.text !== null"
@@ -161,5 +156,11 @@ export default {
         padding: 2px 6px;
         margin-right: 10px;
     }
+}
+.secretcodes_empty {
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #ccc;
 }
 </style>

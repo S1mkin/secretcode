@@ -1,24 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Store from "../store";
-import AddSecretcode from "../views/Add_secretcode.vue";
+import Sign_in from "../views/Sign_in.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
     {
         path: "/",
-        name: "Add_secretcode",
-        component: AddSecretcode,
-        meta: {
-            title: "Add secretcode",
-            requiresAuth: true
-        }
-    },
-    {
-        path: "/sign_in",
         name: "Sign_in",
-        component: () => import("../views/Sign_in.vue"),
+        component: Sign_in,
         meta: {
             title: "Sign in",
             requiresAuth: false
@@ -31,6 +22,15 @@ const routes = [
         meta: {
             title: "Sign up",
             requiresAuth: false
+        }
+    },
+    {
+        path: "/add_secretcode",
+        name: "Add_secretcode",
+        component: () => import("../views/Add_secretcode.vue"),
+        meta: {
+            title: "Add secretcode",
+            requiresAuth: true
         }
     },
     {

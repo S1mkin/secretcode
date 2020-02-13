@@ -17,6 +17,9 @@ export default {
             state.status = "success";
             state.token = token;
         },
+        AUTH_LOGOUT(state) {
+            state.token = "";
+        },
         AUTH_ERROR(state) {
             state.status = "error";
         }
@@ -35,8 +38,7 @@ export default {
                         const token = response.data.user.api_token;
                         localStorage.setItem("api_token", token);
                         commit("AUTH_SUCCESS", token);
-                        // you have your token, now log in your user :)
-                        dispatch("USER_REQUEST");
+                        dispatch("LOAD_SECRETCODES_FROM_BACKEND");
                         resolve(response);
                     })
                     .catch(error => {

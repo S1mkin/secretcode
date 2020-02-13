@@ -48,7 +48,7 @@ export default {
                         );
                     })
                     .catch(error => {
-                        reject(JSON.stringify(error));
+                        reject(error.response.data.errors);
                     });
             });
         },
