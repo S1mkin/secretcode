@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import Store from "../store";
 import AddSecretcode from "../views/Add_secretcode.vue";
 
 Vue.use(VueRouter);
@@ -11,7 +12,7 @@ const routes = [
         component: AddSecretcode,
         meta: {
             title: "Add secretcode",
-            requiresAuth: false
+            requiresAuth: true
         }
     },
     {
@@ -29,7 +30,7 @@ const routes = [
         component: () => import("../views/Secretcodes.vue"),
         meta: {
             title: "All secretcode",
-            requiresAuth: false
+            requiresAuth: true
         }
     },
     {
@@ -50,8 +51,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    document.title = to.meta.title;
-    next();
+    if (to.meta.requiresAuth && !Store.getters.IS_AUTHENTICATED) {
+        next("/sign_in");
+    } else {
+        document.title = to.meta.title;
+        next();
+    }
 });
 
 export default router;

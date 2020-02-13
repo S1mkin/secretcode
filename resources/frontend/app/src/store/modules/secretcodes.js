@@ -4,9 +4,7 @@ export default {
         secretcodes: []
     },
     getters: {
-        GET_SECRETCODES(state) {
-            return state.secretcodes;
-        }
+        GET_SECRETCODES: state => state.secretcodes
     },
     mutations: {
         CLEAR_SECRETCODES(state) {

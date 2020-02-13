@@ -90,18 +90,19 @@ export default {
             }
         };
     },
+
     methods: {
         SIGN_IN_SUBMIT() {
             if (this.$refs.form.validate()) {
                 this.form.sending = true;
                 this.form.error = null;
                 this.$store
-                    .dispatch("SIGN_IN", {
+                    .dispatch("AUTH_REQUEST", {
                         email: this.form.email.value,
                         password: this.form.password.value
                     })
                     .then(() => {
-                        this.$router.push({ name: "Main" });
+                        this.$router.push({ name: "Secretcodes" });
                         this.form.sending = false;
                     })
                     .catch(err => {

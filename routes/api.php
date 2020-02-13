@@ -21,3 +21,6 @@ Route::get('/secretcode/get', 'SecretcodesController@get');
 Route::post('/secretcode/add', 'SecretcodesController@add');
 Route::post('/secretcode/delete', 'SecretcodesController@delete');
 Route::post('/secretcode/filter', 'SecretcodesController@filter');
+
+Route::post('/auth/login', 'AuthController@login');
+Route::post('/auth/logout', 'AuthController@logout');
