@@ -28,6 +28,7 @@
             <v-btn
                 depressed
                 x-large
+                rounded
                 color="primary"
                 width="100%"
                 class="text-capitalize mt-4"
@@ -43,6 +44,12 @@
                 <span v-show="!form.sending">Sign In</span></v-btn
             >
         </v-form>
+
+        <p>
+            Don't have an account yet?
+            <v-spacer></v-spacer>
+            <router-link to="/sign_up">Sign Up</router-link>
+        </p>
 
         <div class="form-alert-wrap" v-if="form.error !== null">
             <v-alert>

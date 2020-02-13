@@ -25,6 +25,15 @@ const routes = [
         }
     },
     {
+        path: "/sign_up",
+        name: "Sign_up",
+        component: () => import("../views/Sign_up.vue"),
+        meta: {
+            title: "Sign up",
+            requiresAuth: false
+        }
+    },
+    {
         path: "/secretcodes",
         name: "Secretcodes",
         component: () => import("../views/Secretcodes.vue"),

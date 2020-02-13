@@ -1,6 +1,7 @@
 import axios from "axios";
 export default {
     state: {
+        name: null,
         token: localStorage.getItem("api_token") || "",
         status
     },
@@ -30,13 +31,13 @@ export default {
                         email: user.email,
                         password: user.password
                     })
-                    .then(resp => {
-                        const token = resp.data.token;
-                        localStorage.setItem("api_token", token); // store the token in localstorage
+                    .then(response => {
+                        const token = response.data.user.api_token;
+                        localStorage.setItem("api_token", token);
                         commit("AUTH_SUCCESS", token);
                         // you have your token, now log in your user :)
                         dispatch("USER_REQUEST");
-                        resolve(resp);
+                        resolve(response);
                     })
                     .catch(error => {
                         commit("AUTH_ERROR", error);
@@ -50,6 +51,24 @@ export default {
                 commit("AUTH_LOGOUT");
                 localStorage.removeItem("api_token"); // clear your user's token from localstorage
                 resolve("Logout success!");
+            });
+        },
+        REGISTER_REQUEST({ commit }, user) {
+            return new Promise((resolve, reject) => {
+                commit("AUTH_REQUEST");
+                axios
+                    .post("/api/auth/register", {
+                        name: user.name,
+                        email: user.email,
+                        password: user.password,
+                        password_confirmation: user.password
+                    })
+                    .then(response => {
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error.message);
+                    });
             });
         }
     }
