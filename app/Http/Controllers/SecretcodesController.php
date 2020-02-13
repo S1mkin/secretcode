@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Secretcode;
 use App\Code;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -52,7 +53,9 @@ class SecretcodesController extends Controller
     */
     public function get()
     {
-        $secretcodes = Secretcode::all()->load("codes");
+        $user_id = 1;
+        //$secretcodes = Secretcode::all()->load("codes");
+        $secretcodes = Secretcode::where('user_id', $user_id)->get()->load("codes");
         return $secretcodes;
     }
 
