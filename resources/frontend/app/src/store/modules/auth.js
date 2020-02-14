@@ -7,6 +7,7 @@ export default {
     },
     getters: {
         IS_AUTHENTICATED: state => !!state.token,
+        GET_API_TOKEN: state => state.token,
         AUTH_STATUS: state => state.status
     },
     mutations: {

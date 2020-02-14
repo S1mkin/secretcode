@@ -51,11 +51,19 @@ class SecretcodesController extends Controller
     * Function return all secretcodes
     * @return array
     */
-    public function get()
+    public function get(Request $request)
     {
-        $user_id = 1;
-        //$secretcodes = Secretcode::all()->load("codes");
-        $secretcodes = Secretcode::where('user_id', $user_id)->get()->load("codes");
+
+        $data = $request->validate([
+            'api_token' => 'required|min:8',
+        ]);
+
+        $user = User::where('api_token', $data['api_token'])->first();
+
+        if (!$user) { abort(403, 'Unauthorized action: api_token not found'); }
+
+        $secretcodes = Secretcode::where('user_id', $user->id)->get()->load("codes");
+
         return $secretcodes;
     }
 
@@ -68,13 +76,18 @@ class SecretcodesController extends Controller
         $data = $request->validate([
             'condition' => 'required',
             'code' => 'required',
+            'api_token' => 'required|min:8',
         ]);
+
+        $user = User::where('api_token', $data['api_token'])->first();
+
+        if (!$user) { abort(403, 'Unauthorized action: api_token not found'); }
 
         if (!in_array($data['condition'], ['>', '<', '='])) {
             $data['condition'] == '=';
         }
 
-        $secretcodes = Secretcode::whereHas('codes', function($q) use ($data) {
+        $secretcodes = Secretcode::where('user_id', $user->id)->whereHas('codes', function($q) use ($data) {
             $q->where('value', $data['condition'], $data['code']);
         })->get()->load("codes");
 
@@ -87,16 +100,21 @@ class SecretcodesController extends Controller
     */
     public function add(Request $request)
     {
-        
+
         $data = $request->validate([
             'name' => 'required|unique:secretcodes|min:3|max:50',
             'text' => 'required|min:8',
+            'api_token' => 'required|min:8',
         ]);
+
+        $user = User::where('api_token', $data['api_token'])->first();
+
+        if (!$user) { abort(403, 'Unauthorized action: api_token not found'); }
 
         $codes = $this->find_code($data['text']);
 
         $secretcode = Secretcode::create([
-            'user_id' => 1,
+            'user_id' => $user->id,
             'name' => $data['name'],
             'text' => $data['text']
         ]);
@@ -119,11 +137,18 @@ class SecretcodesController extends Controller
     {       
         $data = $request->validate([
             'id' => 'required',
+            'api_token' => 'required|min:8',
         ]);
         
+        
+        $user = User::where('api_token', $data['api_token'])->first();
+
+        if (!$user) { abort(403, 'Unauthorized action: api_token not found'); }
+
         //Secretcode::findOrFail($data['id'])->delete();
 
-        Secretcode::destroy($data['id']);
+        //Secretcode::destroy($data['id']);
+        Secretcode::where('user_id', $user->id)->findOrFail($data['id'])->delete();
 
         return "Secretcode ID " . $data['id'] . " has been deleted";
     }

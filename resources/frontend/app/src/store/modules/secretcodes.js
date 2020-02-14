@@ -21,9 +21,11 @@ export default {
         }
     },
     actions: {
-        LOAD_SECRETCODES_FROM_BACKEND({ commit }) {
+        LOAD_SECRETCODES_FROM_BACKEND({ getters, commit }) {
             axios
-                .get("/api/secretcode/get")
+                .post("/api/secretcode/get", {
+                    api_token: getters.GET_API_TOKEN
+                })
                 .then(response => {
                     commit("CLEAR_SECRETCODES");
                     commit("ADD_SECRETCODES", response.data);
@@ -32,12 +34,13 @@ export default {
                     return false;
                 });
         },
-        ADD_SECRETCODES_TO_BACKEND({ commit }, data) {
+        ADD_SECRETCODES_TO_BACKEND({ getters, commit }, data) {
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/secretcode/add", {
                         name: data.name,
-                        text: data.text
+                        text: data.text,
+                        api_token: getters.GET_API_TOKEN
                     })
                     .then(response => {
                         commit("ADD_SECRETCODES", [response.data]);
@@ -52,11 +55,12 @@ export default {
                     });
             });
         },
-        DELETE_SECRETCODES_FROM_BACKEND({ commit }, data) {
+        DELETE_SECRETCODES_FROM_BACKEND({ getters, commit }, data) {
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/secretcode/delete", {
-                        id: data.id
+                        id: data.id,
+                        api_token: getters.GET_API_TOKEN
                     })
                     .then(() => {
                         commit("DELETE_SECRETCODE_BY_ID", data.id);
@@ -71,12 +75,13 @@ export default {
                     });
             });
         },
-        FILTER_SECRETCODES({ commit }, data) {
+        FILTER_SECRETCODES({ getters, commit }, data) {
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/secretcode/filter", {
                         condition: data.condition,
-                        code: data.code
+                        code: data.code,
+                        api_token: getters.GET_API_TOKEN
                     })
                     .then(response => {
                         commit("CLEAR_SECRETCODES");
@@ -84,7 +89,7 @@ export default {
                         resolve("Filter is success");
                     })
                     .catch(error => {
-                        reject(JSON.stringify(error));
+                        reject(error.response.data.errors);
                     });
             });
         }
