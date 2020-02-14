@@ -104,7 +104,7 @@ export default {
                     rules: [
                         value => !!value || "Name is required",
                         value =>
-                            (value && value.length <= 10) ||
+                            (value && value.length <= 50) ||
                             "Name must be less than 50 characters"
                     ]
                 },
@@ -158,7 +158,7 @@ export default {
                         email: this.form.email.value,
                         password: this.form.password.value
                     })
-                    .then(() => this.$router.push("/sign_in"))
+                    .then(() => this.$router.push({ name: "Sign_in" }))
                     .catch(err => (this.form.error = err));
             }
         },

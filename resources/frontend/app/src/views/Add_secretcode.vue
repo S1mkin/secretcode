@@ -68,7 +68,7 @@ export default {
                     value: "Secret code №1",
                     rules: [
                         value => !!value || "Name secret code is required",
-                        value => value.length >= 8 || "Min 8 characters"
+                        value => value.length >= 3 || "Min 3 characters"
                     ]
                 },
                 text_secretcode: {
@@ -76,7 +76,7 @@ export default {
                         "secret text demis 4 lala-}blab{la ! =)) :( {457}7775 {-1.000001 } 32 {+98} {2} {+3.14} {12637} 9812 {89123789} 1 O O1 01 1O 1}OO {zer}o! {df1000 ggg... {5-} 105} {-2010} wass{auupp!!",
                     rules: [
                         value => !!value || "Text secret code is required",
-                        value => value.length >= 8 || "Min 8 characters"
+                        value => value.length >= 3 || "Min 3 characters"
                     ]
                 },
                 sending: false,
