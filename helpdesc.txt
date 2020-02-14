@@ -110,3 +110,19 @@ php artisan make:migration create_tasks_table --create=tasks - создаст н
 ################### Создание модели
 
 php artisan make:model Task
+
+
+################### Выкат на shared хостинг
+
+https://medium.com/laravel-news/the-simple-guide-to-deploy-laravel-5-application-on-shared-hosting-1a8d0aee923e#.ln6zbkigm
+
+composer install
+composer dumpautoload -o
+$ php artisan config:cache
+php artisan route:cache
+
+composer update
+composer require doctrine/dbal
+
+Установка по ssh: https://timeweb.com/ru/help/pages/viewpage.action?pageId=4358354
+Установка composer timeweb : https://timeweb.com/ru/help/pages/viewpage.action?pageId=8781936
