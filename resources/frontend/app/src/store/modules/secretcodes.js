@@ -1,10 +1,12 @@
 import axios from "axios";
 export default {
     state: {
-        secretcodes: []
+        secretcodes: [],
+        filter: false
     },
     getters: {
-        GET_SECRETCODES: state => state.secretcodes
+        GET_SECRETCODES: state => state.secretcodes,
+        GET_FILTER: state => state.filter
     },
     mutations: {
         CLEAR_SECRETCODES(state) {
@@ -18,7 +20,8 @@ export default {
                 return element.id == id ? true : false;
             });
             state.secretcodes.splice(secretcode_id, 1);
-        }
+        },
+        SET_FILTER: (state, filter) => (state.filter = filter)
     },
     actions: {
         LOAD_SECRETCODES_FROM_BACKEND({ getters, commit }) {
@@ -27,6 +30,7 @@ export default {
                     api_token: getters.GET_API_TOKEN
                 })
                 .then(response => {
+                    commit("SET_FILTER", false);
                     commit("CLEAR_SECRETCODES");
                     commit("ADD_SECRETCODES", response.data);
                 })
@@ -34,7 +38,7 @@ export default {
                     return false;
                 });
         },
-        ADD_SECRETCODES_TO_BACKEND({ getters, commit }, data) {
+        ADD_SECRETCODES_TO_BACKEND({ getters, commit, dispatch }, data) {
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/secretcode/add", {
@@ -43,6 +47,9 @@ export default {
                         api_token: getters.GET_API_TOKEN
                     })
                     .then(response => {
+                        if (getters.GET_FILTER) {
+                            dispatch("LOAD_SECRETCODES_FROM_BACKEND");
+                        }
                         commit("ADD_SECRETCODES", [response.data]);
                         resolve(
                             "Secret code with ID " +
@@ -84,6 +91,7 @@ export default {
                         api_token: getters.GET_API_TOKEN
                     })
                     .then(response => {
+                        commit("SET_FILTER", true);
                         commit("CLEAR_SECRETCODES");
                         commit("ADD_SECRETCODES", response.data);
                         resolve("Filter is success");
