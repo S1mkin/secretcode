@@ -161,6 +161,6 @@ export default {
     margin: 20px 0;
     text-align: center;
     font-weight: bold;
-    color: #ccc;
+    color: #6f716f;
 }
 </style>
