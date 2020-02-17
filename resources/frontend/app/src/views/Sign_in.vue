@@ -116,10 +116,6 @@ export default {
                         this.form.sending = false;
                     });
             }
-        },
-        // custom close icon for alert
-        CLOSE_ALERT() {
-            this.form.error = null;
         }
     }
 };
