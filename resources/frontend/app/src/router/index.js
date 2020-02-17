@@ -61,7 +61,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth && !Store.getters.IS_AUTHENTICATED) {
-        next("/sign_in");
+        next("/");
     } else {
         document.title = to.meta.title;
         next();
