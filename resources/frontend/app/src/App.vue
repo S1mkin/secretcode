@@ -63,7 +63,7 @@ header {
 }
 
 #app {
-    background-color: #efefef;
+    background-color: #b1c1b5;
     position: relative;
     max-width: $main-width;
     margin: 0 auto;
