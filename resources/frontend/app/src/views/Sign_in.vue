@@ -45,12 +45,6 @@
             >
         </v-form>
 
-        <p>
-            Don't have an account yet?
-            <v-spacer></v-spacer>
-            <router-link to="/sign_up">Sign Up</router-link>
-        </p>
-
         <v-alert
             v-if="form.error !== null"
             type="error"
@@ -59,6 +53,12 @@
             class="my-2"
             >{{ form.error }}
         </v-alert>
+
+        <p>
+            Don't have an account yet?
+            <v-spacer></v-spacer>
+            <router-link to="/sign_up">Sign Up</router-link>
+        </p>
 
         <p>
             <span class="font-weight-bold">Try:</span> test@mail.ru / qwertyASD!
