@@ -137,7 +137,6 @@ export default {
                 })
                 .catch(error => {
                     this.loading.error = error;
-                    this.loading.status = false;
                 })
                 .finally(() => {
                     this.loading.status = false;
