@@ -20,8 +20,6 @@ class SecretcodesController extends Controller
         return (in_array($string[0], ["+", "-"])) ? ctype_digit(substr($string, 1)) : ctype_digit($string);
     }
 
-
-
     /**
     * Function retrieves secret codes.
     * @return array
@@ -52,10 +50,15 @@ class SecretcodesController extends Controller
     * @return object
     */
     private function get_user_by_api_token($api_token) {
+        // search user by api_token
         $user = User::where('api_token', $api_token)->first();
+
+        // If user not found 
         if (!$user) { 
+            // return Exception
             abort(403, 'Unauthorized action: api_token not found'); 
         } else {
+            // else return object: user
             return $user;
         }
     }
@@ -67,42 +70,52 @@ class SecretcodesController extends Controller
     */
     public function get(Request $request)
     {
-
+        // validate request data
         $data = $request->validate([
             'api_token' => 'required|min:8',
         ]);
         
+        // get user by api_token
         $user = $this->get_user_by_api_token($data['api_token']);
-
+        
+        // get all secretcodes by user_id
         $secretcodes = Secretcode::where('user_id', $user->id)->get()->load("codes");
-
+        
+        // return object: secretcode + codes
         return $secretcodes;
     }
+
 
     /**
     * Function return secretcodes by condition
     * @return array
     */
     public function filter(Request $request)
-    {
+    {   
+        // validate request data
         $data = $request->validate([
             'condition' => 'required',
             'code' => 'required',
             'api_token' => 'required|min:8',
         ]);
-
+        
+        // get user by api_token
         $user = $this->get_user_by_api_token($data['api_token']);
-
+        
+        // if bad condition, then set =
         if (!in_array($data['condition'], ['>', '<', '='])) {
             $data['condition'] == '=';
         }
 
+        // search secretcodes by condition
         $secretcodes = Secretcode::where('user_id', $user->id)->whereHas('codes', function($q) use ($data) {
             $q->where('value', $data['condition'], $data['code']);
         })->get()->load("codes");
 
+        // return object: secretcode + codes
         return $secretcodes;
     }
+
 
     /**
     * Function add new secretcode and return object
@@ -110,29 +123,34 @@ class SecretcodesController extends Controller
     */
     public function add(Request $request)
     {
-
+        // validate request data
         $data = $request->validate([
             'name' => 'required|unique:secretcodes|min:3|max:50',
             'text' => 'required|min:8',
             'api_token' => 'required|min:8',
         ]);
 
+        // get user by api_token
         $user = $this->get_user_by_api_token($data['api_token']);
 
+        // search codes into text
         $codes = $this->find_code($data['text']);
-
+        
+        // create new secretcode
         $secretcode = Secretcode::create([
             'user_id' => $user->id,
             'name' => $data['name'],
             'text' => $data['text']
         ]);
-
+        
+        // add codes to secretcode
         foreach ($codes as $code) {
             $secretcode->codes()->create([
                 'value' => $code
             ]);
         }
 
+        // return object: secretcode + codes
         return $secretcode->load('codes');
     }
 
@@ -142,16 +160,20 @@ class SecretcodesController extends Controller
     * @return string
     */
     public function delete(Request $request)
-    {       
+    {   
+        // validate request data
         $data = $request->validate([
             'id' => 'required',
             'api_token' => 'required|min:8',
         ]);
         
+        // get user by api_token
         $user = $this->get_user_by_api_token($data['api_token']);
-
+        
+        // delete Secretcode by id && user_id
         Secretcode::where('user_id', $user->id)->findOrFail($data['id'])->delete();
-
+        
+        // return result
         return "Secretcode ID " . $data['id'] . " has been deleted";
     }
 
