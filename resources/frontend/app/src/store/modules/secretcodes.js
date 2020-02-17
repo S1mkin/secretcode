@@ -24,19 +24,17 @@ export default {
         SET_FILTER: (state, filter) => (state.filter = filter)
     },
     actions: {
-        LOAD_SECRETCODES_FROM_BACKEND({ getters, commit }) {
-            axios
-                .post("/api/secretcode/get", {
+        async LOAD_SECRETCODES_FROM_BACKEND({ getters, commit }) {
+            try {
+                let response = await axios.post("/api/secretcode/get", {
                     api_token: getters.GET_API_TOKEN
-                })
-                .then(response => {
-                    commit("SET_FILTER", false);
-                    commit("CLEAR_SECRETCODES");
-                    commit("ADD_SECRETCODES", response.data);
-                })
-                .catch(() => {
-                    return false;
                 });
+                commit("SET_FILTER", false);
+                commit("CLEAR_SECRETCODES");
+                commit("ADD_SECRETCODES", response.data);
+            } catch {
+                throw new Error("Error loading data");
+            }
         },
         ADD_SECRETCODES_TO_BACKEND({ getters, commit, dispatch }, data) {
             return new Promise((resolve, reject) => {
@@ -91,10 +89,13 @@ export default {
                         api_token: getters.GET_API_TOKEN
                     })
                     .then(response => {
-                        commit("SET_FILTER", true);
+                        commit(
+                            "SET_FILTER",
+                            `Code ${data.condition} ${data.code}`
+                        );
                         commit("CLEAR_SECRETCODES");
                         commit("ADD_SECRETCODES", response.data);
-                        resolve("Filter is success");
+                        resolve(getters.GET_FILTER);
                     })
                     .catch(error => {
                         reject(error.response.data.errors);

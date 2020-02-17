@@ -29,7 +29,7 @@
                 <span class="mr-2">Sign out</span>
             </v-btn>
         </v-app-bar>
-        <v-content>
+        <v-content lg>
             <transition name="transition-fade" mode="out-in">
                 <router-view></router-view>
             </transition>
@@ -68,6 +68,10 @@ header {
     max-width: $main-width;
     margin: 0 auto;
     padding: 20px 40px;
+}
+
+.container {
+    max-width: 760px !important;
 }
 
 /* Fade transition */

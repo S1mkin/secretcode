@@ -45,7 +45,7 @@ export default {
                     .catch(error => {
                         commit("AUTH_ERROR", error);
                         localStorage.removeItem("api_token"); // if the request fails, remove any possible user token if possible
-                        reject(error);
+                        reject(error.response.data.errors.message);
                     });
             });
         },
@@ -70,7 +70,7 @@ export default {
                         resolve(response);
                     })
                     .catch(error => {
-                        reject(error.message);
+                        reject(error.response.data.errors);
                     });
             });
         }

@@ -88,6 +88,11 @@
 
 <script>
 export default {
+    created() {
+        this.form.success = this.$store.getters.GET_FILTER
+            ? this.$store.getters.GET_FILTER
+            : null;
+    },
     data() {
         return {
             form: {
@@ -113,7 +118,7 @@ export default {
     methods: {
         LOAD_ALL_SECRETCODE() {
             this.form.sending = true;
-            this.form.error = null;
+            this.form.error = this.form.success = null;
 
             this.$store
                 .dispatch("LOAD_SECRETCODES_FROM_BACKEND")
@@ -128,7 +133,7 @@ export default {
         FILTER_SECRETCODE() {
             if (this.$refs.form.validate()) {
                 this.form.sending = true;
-                this.form.error = null;
+                this.form.error = this.form.success = null;
 
                 this.$store
                     .dispatch("FILTER_SECRETCODES", {

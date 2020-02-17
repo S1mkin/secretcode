@@ -37,7 +37,6 @@
                 outlined
                 class="mb-6"
             ></v-text-field>
-            Password must contain 8+ symbols, 1 special and 2 capital letters
 
             <v-text-field
                 label="Repeat password"
@@ -55,6 +54,11 @@
                 outlined
                 class="mb-6"
             ></v-text-field>
+
+            <div class="my-2 caption">
+                <v-icon>priority_high</v-icon> Password must contain 8+ symbols,
+                1 special and 2 capital letters
+            </div>
 
             <v-btn
                 depressed
@@ -75,21 +79,20 @@
             >
         </v-form>
 
+        <v-alert
+            v-if="form.error !== null"
+            type="error"
+            dense
+            dismissible
+            class="my-2"
+            >{{ form.error }}
+        </v-alert>
+
         <p>
             Already have an account?
             <v-spacer></v-spacer>
-            <router-link to="/sign_in">Sign In</router-link>
+            <router-link to="/">Sign In</router-link>
         </p>
-        <div class="form-alert-wrap" v-if="form.error !== null">
-            <v-alert>
-                <v-row align="center">
-                    <v-col class="grow py-0 pr-0">{{ form.error }}</v-col>
-                    <v-col class="shrink py-0 pl-0">
-                        <v-icon dark @click="CLOSE_ALERT">mdi-close</v-icon>
-                    </v-col>
-                </v-row>
-            </v-alert>
-        </div>
     </v-container>
 </template>
 
@@ -161,10 +164,6 @@ export default {
                     .then(() => this.$router.push({ name: "Sign_in" }))
                     .catch(err => (this.form.error = err));
             }
-        },
-        // custom close icon for alert
-        CLOSE_ALERT() {
-            this.form.error = null;
         }
     }
 };

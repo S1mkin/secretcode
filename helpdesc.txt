@@ -116,9 +116,11 @@ php artisan make:model Task
 
 https://medium.com/laravel-news/the-simple-guide-to-deploy-laravel-5-application-on-shared-hosting-1a8d0aee923e#.ln6zbkigm
 
+ssh ck80685@ck80685.tmweb.ru
+
 composer install
 composer dumpautoload -o
-$ php artisan config:cache
+php artisan config:cache
 php artisan route:cache
 
 composer update

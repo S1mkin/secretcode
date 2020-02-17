@@ -51,16 +51,14 @@
             <router-link to="/sign_up">Sign Up</router-link>
         </p>
 
-        <div class="form-alert-wrap" v-if="form.error !== null">
-            <v-alert>
-                <v-row align="center" no-gutters>
-                    <v-col class="grow">{{ form.error }}</v-col>
-                    <v-col class="shrink">
-                        <v-icon dark @click="CLOSE_ALERT">mdi-close</v-icon>
-                    </v-col>
-                </v-row>
-            </v-alert>
-        </div>
+        <v-alert
+            v-if="form.error !== null"
+            type="error"
+            dense
+            dismissible
+            class="my-2"
+            >{{ form.error }}
+        </v-alert>
 
         <p>
             <span class="font-weight-bold">Try:</span> test@mail.ru / qwertyASD!
@@ -110,10 +108,11 @@ export default {
                     })
                     .then(() => {
                         this.$router.push({ name: "Secretcodes" });
-                        this.form.sending = false;
                     })
                     .catch(err => {
                         this.form.error = err;
+                    })
+                    .finally(() => {
                         this.form.sending = false;
                     });
             }
@@ -125,12 +124,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.form {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    margin: 0 auto;
-}
-</style>
